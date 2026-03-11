@@ -10,7 +10,7 @@ Visualize distributed tracing with Jaeger.
 
 ## Contributing
 
-See [CONTRIBUTING](./CONTRIBUTING.md) for development setup, coding standards, and contribution guidelines.
+See [CONTRIBUTING](./CONTRIBUTING.md) for development setup, coding standards, and contribution guidelines. See [CODE_OF_CONDUCT](./CODE_OF_CONDUCT.md) for community expectations and [OpenSSF Best Practices Badge Readiness](./docs/openssf-best-practices.md) for the repository evidence collected for the `jaeger-ui` badge application.
 
 Stuck somewhere or found a bug? See [Getting in Touch](https://www.jaegertracing.io/get-in-touch/) on how to ask for help.
 
