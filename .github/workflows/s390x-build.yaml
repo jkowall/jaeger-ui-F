@@ -18,10 +18,10 @@ jobs:
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e2 # v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@2b51285047da1547b1b6d0c433e4f9b17d9d6e9d # v3
 
       - name: Cache Docker layers
         uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
