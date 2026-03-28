@@ -4,6 +4,7 @@
 import memoizeOne from 'memoize-one';
 import objectHash from 'object-hash';
 
+import { KeyValuePair } from '../../types/trace';
 import {
   PathElem,
   TDdgModel,
@@ -16,9 +17,8 @@ import {
 
 const stringifyEntry = ({ service, operation }: TDdgPayloadEntry) => `${service}\v${operation}`;
 
-// TODO: Everett Tech Debt: Fix KeyValuePair types
-function group(arg: { key: string; value: any }[]): Record<string, any[]> {
-  const result: Record<string, any[]> = {};
+function group(arg: KeyValuePair[]): Record<string, string[]> {
+  const result: Record<string, string[]> = {};
   arg.forEach(({ key, value }) => {
     if (!result[key]) result[key] = [];
     result[key].push(value);

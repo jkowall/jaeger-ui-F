@@ -4,6 +4,7 @@
 import { TVertex } from '@jaegertracing/plexus/lib/types';
 
 import PathElem from './PathElem';
+import { KeyValuePair } from '../../types/trace';
 
 export { default as PathElem } from './PathElem';
 
@@ -41,11 +42,7 @@ export type TDdgPayloadEntry = {
 
 export type TDdgPayloadPath = {
   path: TDdgPayloadEntry[];
-  // TODO: Everett Tech Debt: Fix KeyValuePair types
-  attributes: {
-    key: 'exemplar_trace_id';
-    value: string;
-  }[];
+  attributes: KeyValuePair[];
 };
 
 export type TDdgPayload = {
