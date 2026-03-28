@@ -122,4 +122,11 @@ describe('fileReader.readJsonFile', () => {
 
     return expect(promise).rejects.toThrow(/Invalid result type/);
   });
+
+  it('rejects multi-line JSON with a malformed line', () => {
+    const fileContent = '{"a":1}\n{"b":';
+    const file = new File([fileContent], 'multi-error.json', { type: 'application/json' });
+    const p = readJsonFile({ file });
+    return expect(p).rejects.toThrow(/Error parsing JSON at line 2:/);
+  });
 });
