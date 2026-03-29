@@ -87,16 +87,25 @@ describe('fileReader.readJsonFile', () => {
     return expect(p).resolves.toMatchObject(expectedOutput);
   });
 
+  it('rejects multi-line JSON with a malformed line', () => {
+    const fileContent = '{"a":1}\n{"b":';
+    const file = new File([fileContent], 'multi-error.json', { type: 'application/json' });
+    const p = readJsonFile({ file });
+    return expect(p).rejects.toThrow(/Error parsing JSON at line 2:/);
+  });
+
   describe('FileReader mocking', () => {
+    let fileReaderSpy;
+
     afterEach(() => {
-      jest.restoreAllMocks();
+      fileReaderSpy.mockRestore();
     });
 
     it('handles FileReader error', () => {
       const file = new File([''], 'error.json');
       const mockReader = { readAsText: jest.fn(), onerror: null, error: new Error('Read error') };
 
-      jest.spyOn(window, 'FileReader').mockImplementation(() => mockReader);
+      fileReaderSpy = jest.spyOn(window, 'FileReader').mockImplementation(() => mockReader);
       const promise = readJsonFile({ file });
 
       mockReader.onerror();
@@ -108,7 +117,7 @@ describe('fileReader.readJsonFile', () => {
       const file = new File([''], 'abort.json');
       const mockReader = { readAsText: jest.fn(), onabort: null };
 
-      jest.spyOn(window, 'FileReader').mockImplementation(() => mockReader);
+      fileReaderSpy = jest.spyOn(window, 'FileReader').mockImplementation(() => mockReader);
       const promise = readJsonFile({ file });
 
       mockReader.onabort();
@@ -120,19 +129,12 @@ describe('fileReader.readJsonFile', () => {
       const file = new File(['{ "test": true }'], 'dummy.json');
       const mockReader = { readAsText: jest.fn(), onload: null, result: {} };
 
-      jest.spyOn(window, 'FileReader').mockImplementation(() => mockReader);
+      fileReaderSpy = jest.spyOn(window, 'FileReader').mockImplementation(() => mockReader);
       const promise = readJsonFile({ file });
 
       mockReader.onload();
 
       return expect(promise).rejects.toThrow(/Invalid result type/);
     });
-  });
-
-  it('rejects multi-line JSON with a malformed line', () => {
-    const fileContent = '{"a":1}\n{"b":';
-    const file = new File([fileContent], 'multi-error.json', { type: 'application/json' });
-    const p = readJsonFile({ file });
-    return expect(p).rejects.toThrow(/Error parsing JSON at line 2:/);
   });
 });
