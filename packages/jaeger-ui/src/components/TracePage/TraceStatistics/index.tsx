@@ -315,22 +315,45 @@ export default class TraceStatistics extends Component<Props, State> {
      * Pre-process the table data into groups and sub-groups
      */
     const groupAndSubgroupSpanData = (tableValue: ITableSpan[]): ITableSpan[] => {
-      const withDetail: ITableSpan[] = tableValue.filter((val: ITableSpan) => val.isDetail);
-      const withoutDetail: ITableSpan[] = tableValue.filter((val: ITableSpan) => !val.isDetail);
+      const withDetail: ITableSpan[] = [];
+      const withoutDetail: ITableSpan[] = [];
+      for (let i = 0; i < tableValue.length; i++) {
+        const val = tableValue[i];
+        if (val.isDetail) {
+          withDetail.push(val);
+        } else {
+          withoutDetail.push(val);
+        }
+      }
+
+      const withDetailByParent = new Map<string, ITableSpan[]>();
+      for (let i = 0; i < withDetail.length; i++) {
+        const val = withDetail[i];
+        const { parentElement } = val;
+        let list = withDetailByParent.get(parentElement);
+        if (!list) {
+          list = [];
+          withDetailByParent.set(parentElement, list);
+        }
+        list.push(val);
+      }
+
       for (let i = 0; i < withoutDetail.length; i++) {
-        let newArr = withDetail.filter(value => value.parentElement === withoutDetail[i].name);
-        newArr = newArr.map((value, index) => {
-          const _key = {
-            key: `${i}-${index}`,
+        const parentName = withoutDetail[i].name;
+        const matchingDetails = withDetailByParent.get(parentName) || [];
+        const children = new Array(matchingDetails.length);
+        for (let j = 0; j < matchingDetails.length; j++) {
+          children[j] = {
+            ...matchingDetails[j],
+            key: `${i}-${j}`,
           };
-          const value2 = { ...value, ..._key };
-          return value2;
-        });
-        const child = {
+        }
+
+        withoutDetail[i] = {
+          ...withoutDetail[i],
           key: i.toString(),
-          children: newArr,
+          children,
         };
-        withoutDetail[i] = { ...withoutDetail[i], ...child };
       }
       return withoutDetail;
     };
