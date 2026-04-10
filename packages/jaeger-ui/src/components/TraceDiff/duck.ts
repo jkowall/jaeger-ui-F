@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Uber Technologies, Inc.
+// Copyright (c) 2017-2026 Uber Technologies, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 import { Action, ActionFunctionAny, createActions, handleActions } from 'redux-actions';
