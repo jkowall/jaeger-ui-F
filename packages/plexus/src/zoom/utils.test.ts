@@ -34,8 +34,8 @@ describe('zoom/utils', () => {
       // 0.95 * 100 / 15000 = 95 / 15000 = 0.00633...
       // Math.max(0.03, 0.00633) = 0.03
       const [min, max] = getScaleExtent(width, height, viewWidth, viewHeight);
-      expect(min).toBe(DEFAULT_SCALE_EXTENT[0]);
-      expect(max).toBe(DEFAULT_SCALE_EXTENT[1]);
+      expect(min).toBe(0.03);
+      expect(max).toBe(10);
     });
 
     it('caps min scale at SCALE_MAX', () => {
@@ -47,8 +47,8 @@ describe('zoom/utils', () => {
       // 0.95 * 1000 / 1.5 = 950 / 1.5 = 633.33...
       // Math.min(633.33, 633.33, 10) = 10
       const [min, max] = getScaleExtent(width, height, viewWidth, viewHeight);
-      expect(min).toBe(DEFAULT_SCALE_EXTENT[1]);
-      expect(max).toBe(DEFAULT_SCALE_EXTENT[1]);
+      expect(min).toBe(10);
+      expect(max).toBe(10);
     });
   });
 
@@ -80,9 +80,7 @@ describe('zoom/utils', () => {
     it('returns the same transform if within bounds', () => {
       const transform = zoomIdentity.translate(100, 100).scale(4);
       const constrained = constrainZoom(transform, width, height, viewWidth, viewHeight);
-      expect(constrained.x).toBe(transform.x);
-      expect(constrained.y).toBe(transform.y);
-      expect(constrained.k).toBe(transform.k);
+      expect(constrained).toBe(transform);
     });
 
     it('adjusts k if below fitted scale', () => {
@@ -124,10 +122,6 @@ describe('zoom/utils', () => {
         transform: 'translate(0px, 0px) scale(1)',
         transformOrigin: '0 0',
       });
-      expect(getZoomStyle(null)).toEqual({
-        transform: 'translate(0px, 0px) scale(1)',
-        transformOrigin: '0 0',
-      });
       expect(getZoomStyle(undefined)).toEqual({
         transform: 'translate(0px, 0px) scale(1)',
         transformOrigin: '0 0',
@@ -146,7 +140,6 @@ describe('zoom/utils', () => {
   describe('getZoomAttr', () => {
     it('returns undefined for null/undefined', () => {
       expect(getZoomAttr()).toBeUndefined();
-      expect(getZoomAttr(null)).toBeUndefined();
       expect(getZoomAttr(undefined)).toBeUndefined();
     });
 

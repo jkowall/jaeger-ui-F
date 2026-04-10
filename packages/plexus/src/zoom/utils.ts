@@ -69,7 +69,7 @@ export function constrainZoom(
   return transform;
 }
 
-export function getZoomStyle(transform: ZoomTransform | null | void): React.CSSProperties {
+export function getZoomStyle(transform: ZoomTransform | void): React.CSSProperties {
   if (transform == null) {
     return DEFAULT_ZOOM_STYLE;
   }
@@ -81,8 +81,8 @@ export function getZoomStyle(transform: ZoomTransform | null | void): React.CSSP
   return rv;
 }
 
-export function getZoomAttr(transform: ZoomTransform | null | void) {
-  if (transform == null) {
+export function getZoomAttr(transform: ZoomTransform | void) {
+  if (!transform) {
     return undefined;
   }
   const { x, y, k } = transform;
