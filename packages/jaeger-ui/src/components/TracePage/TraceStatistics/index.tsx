@@ -341,19 +341,18 @@ export default class TraceStatistics extends Component<Props, State> {
       for (let i = 0; i < withoutDetail.length; i++) {
         const parentName = withoutDetail[i].name;
         const matchingDetails = withDetailByParent.get(parentName) || [];
-        const children = new Array(matchingDetails.length);
-        for (let j = 0; j < matchingDetails.length; j++) {
-          children[j] = {
-            ...matchingDetails[j],
-            key: `${i}-${j}`,
+        const children = matchingDetails.map((value, index) => {
+          const _key = {
+            key: `${i}-${index}`,
           };
-        }
+          return { ...value, ..._key };
+        });
 
-        withoutDetail[i] = {
-          ...withoutDetail[i],
+        const child = {
           key: i.toString(),
           children,
         };
+        withoutDetail[i] = { ...withoutDetail[i], ...child };
       }
       return withoutDetail;
     };
