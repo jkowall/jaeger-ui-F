@@ -126,6 +126,10 @@ describe('zoom/utils', () => {
         transform: 'translate(0px, 0px) scale(1)',
         transformOrigin: '0 0',
       });
+      expect(getZoomStyle(null)).toEqual({
+        transform: 'translate(0px, 0px) scale(1)',
+        transformOrigin: '0 0',
+      });
     });
 
     it('returns CSS properties for a valid transform', () => {
@@ -141,6 +145,7 @@ describe('zoom/utils', () => {
     it('returns undefined for null/undefined', () => {
       expect(getZoomAttr()).toBeUndefined();
       expect(getZoomAttr(undefined)).toBeUndefined();
+      expect(getZoomAttr(null)).toBeUndefined();
     });
 
     it('returns a string for a valid transform', () => {

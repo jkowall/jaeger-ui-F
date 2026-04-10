@@ -41,11 +41,11 @@ type TZoomProps = {
 };
 
 export default class ZoomManager {
-  static getZoomAttr(zoomTransform: ZoomTransform | void) {
+  static getZoomAttr(zoomTransform: ZoomTransform | null | undefined) {
     return getZoomAttr(zoomTransform);
   }
 
-  static getZoomStyle(zoomTransform: ZoomTransform | void): React.CSSProperties {
+  static getZoomStyle(zoomTransform: ZoomTransform | null | undefined): React.CSSProperties {
     return getZoomStyle(zoomTransform);
   }
 
