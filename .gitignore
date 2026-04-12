@@ -20,7 +20,6 @@ npm-debug.log
 .eslintcache
 .envrc
 .vscode
-__pycache__/
 
 # scripts
 scripts/release-notes.py
