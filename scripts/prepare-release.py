@@ -24,6 +24,13 @@ def run_command(command, cwd=None, capture_stdout=True, capture_stderr=True, sen
             stderr=subprocess.PIPE if capture_stderr else None
         )
         return result.stdout.strip() if capture_stdout and result.stdout else ""
+    except FileNotFoundError as e:
+        if sensitive:
+            print("Error running sensitive command (output suppressed)")
+        else:
+            print(f"Error running command: {command}")
+            print(f"Executable not found: {e.filename}")
+        raise
     except subprocess.CalledProcessError as e:
         if sensitive:
             print("Error running sensitive command (output suppressed)")
